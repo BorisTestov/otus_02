@@ -1,6 +1,6 @@
 language: cpp
 before_script:
-- sudo apt-get install qt5-default -y
+- sudo apt-get install qt5-default qttools5-dev-tools -y
 - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
 - sudo apt-get update -qq
 script:
