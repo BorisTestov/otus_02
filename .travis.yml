@@ -8,8 +8,8 @@ script:
 - cd build
 - cmake ..
 - cmake --build .
-#- cmake --build . --target test
-- xvfb-run --auto-servernum ./test_ipfilter
+- xvfb-run cmake --build . --target test
+#- xvfb-run --auto-servernum ./test_ipfilter
 - cmake --build . --target package
 deploy:
   provider: script
