@@ -6,8 +6,8 @@ before_script:
 addons:
   apt:
     packages:
-    - gcc-7.5
-    - g++-7.5
+    - gcc-7
+    - g++-7
 script:
 - mkdir -p build
 - cd build
