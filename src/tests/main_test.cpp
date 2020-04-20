@@ -6,6 +6,29 @@ void TestMain::TestVersion()
     QCOMPARE((int)version().find("0.0."),0);
 }
 
+void TestMain::TestStrToInt()
+{
+    IpFilter ipFilter;
+    std::vector<int> resulted_vector = ipFilter.ip_str_to_int(std::vector<std::string>{"255","144","12","0"});
+    std::vector<int> expected_vector {255,144,12,0};
+    QCOMPARE(std::equal(resulted_vector.begin(),resulted_vector.end(),expected_vector.begin()),true);
+}
+
+void TestMain::TestValidBytes()
+{
+    IpFilter ipFilter;
+    bool isValid = ipFilter.is_valid_byte("256");
+    QCOMPARE(isValid,false);
+    isValid = ipFilter.is_valid_byte("-1");
+    QCOMPARE(isValid,false);
+    isValid = ipFilter.is_valid_byte("s");
+    QCOMPARE(isValid,false);
+    isValid = ipFilter.is_valid_byte("255");
+    QCOMPARE(isValid,true);
+    isValid = ipFilter.is_valid_byte("0");
+    QCOMPARE(isValid,true);
+}
+
 void TestMain::TestIpFilter()
 {
     QString resultedMD5;

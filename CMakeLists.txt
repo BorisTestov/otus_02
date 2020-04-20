@@ -1,7 +1,12 @@
 cmake_minimum_required(VERSION 3.2)
 
 # Set project version
-project(ip_filter VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
+set(PATCH "0")
+if (DEFINED ENV{TRAVIS_BUILD_NUMBER})
+    set(PATCH $ENV{TRAVIS_BUILD_NUMBER})
+endif()
+
+project(ip_filter VERSION 0.0.${PATCH})
 
 # Set automoc om
 set(CMAKE_AUTOMOC ON)
@@ -23,11 +28,13 @@ set(main_target "ipfilter_main")
 set(test_target "test_ipfilter")
 
 # Add executables
-add_executable(${main_target} ${CMAKE_CURRENT_SOURCE_DIR}/src/ip_filter.cpp)
+add_executable(${main_target} ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 add_executable(${test_target} ${CMAKE_CURRENT_SOURCE_DIR}/src/tests/main_test.cpp)
 
 # Add libraries
 add_library(version ${CMAKE_CURRENT_SOURCE_DIR}/src/version.cpp)
+add_library(ip_filter ${CMAKE_CURRENT_SOURCE_DIR}/src/IpFilter.cpp)
+add_dependencies(ip_filter Qt5::Widgets)
 
 # Set target properties
 set_target_properties(${main_target} version ${test_target} PROPERTIES
@@ -42,16 +49,12 @@ target_include_directories(version
 
 # Link libraries with main target
 target_link_libraries(${main_target} PRIVATE
-     version
+     ip_filter version Qt5::Widgets
 )
-
-#target_include_directories(${test_target} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include/tests"
-#                                             "${CMAKE_CURRENT_SOURCE_DIR}/include"
-#                                              )
 
 # Link libraries with test target
 target_link_libraries(${test_target}
-    version Qt5::Widgets Qt5::Test
+    ip_filter version Qt5::Widgets Qt5::Test
 )
 
 # Print include directories for main target
